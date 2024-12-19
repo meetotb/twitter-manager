@@ -1,0 +1,51 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches: [ production ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: SSH and Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            echo "Starting deployment..."
+            
+            # Navigate to project directory
+            cd /var/www/twitter-manager
+            
+            # Pull latest changes
+            echo "Pulling latest changes..."
+            git checkout production
+            git pull origin production
+            
+            # Install dependencies
+            echo "Installing dependencies..."
+            npm install --production
+            
+            # Copy environment file if it doesn't exist
+            if [ ! -f .env ]; then
+              echo "Creating .env file..."
+              cp .env.example .env
+            fi
+            
+            # Restart PM2
+            echo "Restarting application..."
+            pm2 restart ecosystem.config.js || pm2 start ecosystem.config.js
+            
+            echo "Deployment completed successfully!"

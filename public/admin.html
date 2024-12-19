@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applications Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .admin-header {
+            min-height: 30vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 2rem;
+            position: relative;
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 3rem;
+        }
+
+        .admin-header h1 {
+            font-size: 4rem;
+            background: linear-gradient(to right, #fff 30%, #888);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .controls {
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .refresh-btn {
+            background: linear-gradient(45deg, #fff, #f0f0f0);
+            color: #000;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(255,255,255,0.1);
+        }
+
+        .refresh-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 25px rgba(255,255,255,0.15);
+        }
+
+        .download-btn {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(76,175,80,0.1);
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 25px rgba(76,175,80,0.2);
+        }
+
+        #last-updated {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .application-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            animation: fadeIn 0.5s ease-out forwards;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .application-card:hover {
+            background: rgba(255, 255, 255, 0.03);
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
+        }
+
+        .application-card h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .application-card p {
+            margin: 1rem 0;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .application-card strong {
+            color: #fff;
+            margin-right: 0.5rem;
+            font-weight: 600;
+        }
+
+        .timestamp {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+
+        .no-applications {
+            text-align: center;
+            padding: 4rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
+            margin: 2rem auto;
+            max-width: 600px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .admin-header h1 {
+                font-size: 3rem;
+            }
+            .application-card {
+                padding: 1.5rem;
+            }
+            .application-card h3 {
+                font-size: 1.5rem;
+            }
+        }
+
+        .delete-btn {
+            background: #ff4444;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            float: right;
+        }
+
+        .delete-btn:hover {
+            background: #ff0000;
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="gradient-bg"></div>
+    
+    <div class="admin-header">
+        <h1>Applications Dashboard</h1>
+    </div>
+    
+    <div class="controls">
+        <div class="btn-group">
+            <button onclick="fetchApplications()" class="refresh-btn">Refresh Applications</button>
+            <button onclick="downloadCSV()" class="download-btn">Download CSV</button>
+        </div>
+        <span id="last-updated"></span>
+    </div>
+
+    <div class="container">
+        <div id="applications-list"></div>
+    </div>
+
+    <script>
+        async function deleteApplication(id) {
+            if (!confirm('Are you sure you want to delete this application?')) {
+                return;
+            }
+            
+            try {
+                const password = new URLSearchParams(window.location.search).get('password');
+                const response = await fetch(`/api/applications/${id}?password=${password}`, {
+                    method: 'DELETE'
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    fetchApplications(); // Refresh the list
+                } else {
+                    throw new Error(data.error || 'Delete failed');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to delete application. Please try again.');
+            }
+        }
+
+        async function fetchApplications() {
+            try {
+                const password = new URLSearchParams(window.location.search).get('password');
+                const response = await fetch(`/api/applications?password=${password}`);
+                const data = await response.json();
+                
+                const applicationsDiv = document.getElementById('applications-list');
+                
+                if (data.applications.length === 0) {
+                    applicationsDiv.innerHTML = '<div class="no-applications">No applications submitted yet.</div>';
+                    return;
+                }
+
+                applicationsDiv.innerHTML = data.applications.map(app => `
+                    <div class="application-card">
+                        <div class="card-header">
+                            <h3>${app.name}</h3>
+                            <button onclick="deleteApplication('${app._id}')" class="delete-btn">Delete</button>
+                        </div>
+                        <p><strong>Email:</strong> ${app.email}</p>
+                        <p><strong>WhatsApp:</strong> ${app.whatsapp}</p>
+                        <p><strong>Instagram:</strong> ${app.instagram}</p>
+                        <p><strong>Twitter:</strong> ${app.twitter}</p>
+                        <p><strong>LinkedIn:</strong> ${app.linkedin}</p>
+                        <p><strong>Twitter Experience:</strong> ${app.twitterExperience}</p>
+                        <p><strong>Twitter Details:</strong> ${app.twitterExperienceDetails}</p>
+                        <p><strong>Web3 Experience:</strong> ${app.web3Experience}</p>
+                        <p><strong>Web3 Details:</strong> ${app.web3ExperienceDetails}</p>
+                        <p class="timestamp">Submitted: ${new Date(app.submittedAt).toLocaleString()}</p>
+                    </div>
+                `).join('');
+
+                document.getElementById('last-updated').textContent = `Last updated: ${new Date().toLocaleTimeString()}`;
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // Initial fetch
+        fetchApplications();
+
+        // Auto refresh every minute
+        setInterval(fetchApplications, 60000);
+
+        async function downloadCSV() {
+            try {
+                const password = new URLSearchParams(window.location.search).get('password');
+                const response = await fetch(`http://localhost:5500/api/applications/download?password=${password}`);
+                const blob = await response.blob();
+                
+                // Create a temporary link to download the file
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `applications-${new Date().toLocaleDateString()}.csv`;
+                document.body.appendChild(a);
+                a.click();
+                
+                // Cleanup
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to download CSV. Please try again.');
+            }
+        }
+    </script>
+</body>
+</html> 

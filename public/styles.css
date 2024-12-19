@@ -1,0 +1,730 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: #000;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+.gradient-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.gradient-bg::before {
+    content: '';
+    position: absolute;
+    width: 1px;
+    height: 200px;
+    background: linear-gradient(
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent
+    );
+    transform: rotate(-45deg);
+    top: 15%;
+    left: 10%;
+    animation: floatingLine 8s ease-in-out infinite;
+}
+
+.gradient-bg::after {
+    content: '';
+    position: absolute;
+    width: 1px;
+    height: 150px;
+    background: linear-gradient(
+        transparent,
+        rgba(255, 255, 255, 0.07),
+        transparent
+    );
+    transform: rotate(-45deg);
+    bottom: 20%;
+    right: 15%;
+    animation: floatingLine 12s ease-in-out infinite;
+    animation-delay: -4s;
+}
+
+@keyframes floatingLine {
+    0%, 100% {
+        transform: rotate(-45deg) translateY(0);
+        opacity: 0.5;
+    }
+    50% {
+        transform: rotate(-45deg) translateY(30px);
+        opacity: 0.8;
+    }
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.header {
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6rem 2rem;
+    position: relative;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    margin-bottom: 4rem;
+}
+
+h1 {
+    text-align: center;
+    font-size: 5rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    background: linear-gradient(to right, #fff 30%, #888);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding: 0 1rem;
+    margin: 0;
+    max-width: 900px;
+}
+
+.hiring-form {
+    padding: 2rem 0 6rem 0;
+    animation: formAppear 0.6s ease-out;
+}
+
+@keyframes formAppear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-group {
+    max-width: 800px;
+    margin: 0 auto 4rem auto;
+    position: relative;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 2.5rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    animation: fadeIn 0.5s ease-out forwards;
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.form-group:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-group:nth-child(2) { animation-delay: 0.1s; }
+.form-group:nth-child(3) { animation-delay: 0.2s; }
+.form-group:nth-child(4) { animation-delay: 0.3s; }
+.form-group:nth-child(5) { animation-delay: 0.4s; }
+.form-group:nth-child(6) { animation-delay: 0.5s; }
+.form-group:nth-child(7) { animation-delay: 0.6s; }
+.form-group:nth-child(8) { animation-delay: 0.7s; }
+.form-group:nth-child(9) { animation-delay: 0.8s; }
+
+input:not([type="radio"]), textarea {
+    width: 100%;
+    padding: 1.3rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    color: #fff;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    margin-top: 0.8rem;
+}
+
+input::placeholder, textarea::placeholder {
+    color: rgba(255, 255, 255, 0.25);
+    font-size: 0.95rem;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.07);
+    background: rgba(0, 0, 0, 0.4);
+}
+
+label {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 1.2rem;
+    color: rgba(255, 255, 255, 0.9);
+    display: block;
+}
+
+input:focus + label,
+input:not(:placeholder-shown) + label {
+    color: rgba(255, 255, 255, 1);
+}
+
+.radio-label {
+    position: static;
+    transform: none;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: row !important;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    align-items: center;
+}
+
+.radio-option {
+    flex: 0 0 auto;
+    background: rgba(32, 32, 32, 1);
+    color: #fff;
+    padding: 0.8rem 2.5rem;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+}
+
+.radio-option:hover {
+    transform: translateY(-2px);
+    background: #fff;
+}
+
+.radio-option input[type="radio"] {
+    width: 0;
+    height: 0;
+    position: absolute;
+    opacity: 0;
+}
+
+.radio-option span {
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+}
+
+/* Selected state */
+.radio-option:has(input[type="radio"]:checked) {
+    background: #fff;
+    color: #000;
+}
+
+/* Unselected state */
+.radio-option:has(input[type="radio"]:not(:checked)) {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 140px;
+    font-family: inherit;
+    line-height: 1.6;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.submit-btn {
+    max-width: 800px;
+    margin: 6rem auto;
+    display: block;
+    padding: 1.6rem;
+    background: linear-gradient(45deg, #fff, #f0f0f0);
+    color: #000;
+    border: none;
+    border-radius: 16px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
+}
+
+.submit-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 60px rgba(255, 255, 255, 0.15);
+    background: #fff;
+}
+
+@media (max-width: 768px) {
+    .header {
+        min-height: 40vh;
+        padding: 4rem 1rem;
+        margin-bottom: 3rem;
+    }
+
+    h1 {
+        font-size: 3.2rem;
+    }
+
+    .hiring-form {
+        padding: 1rem 0 4rem 0;
+    }
+
+    .form-group {
+        padding: 2rem;
+        margin-bottom: 3rem;
+    }
+
+    label {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+
+    .submit-btn {
+        margin: 4rem auto;
+        padding: 1.4rem;
+    }
+
+    .radio-group {
+        flex-direction: row !important;
+        gap: 1rem;
+    }
+    
+    .radio-option {
+        width: 100px;
+        padding: 0.7rem 1rem;
+    }
+}
+
+/* Add smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Add better focus styles for accessibility */
+*:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.5);
+    outline-offset: 2px;
+}
+
+/* Add these new styles */
+.main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: #fff;
+}
+
+.instagram-btn {
+    color: #fff;
+    padding: 0.8rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.instagram-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+/* Update existing styles */
+.hero-header {
+    min-height: 45vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10rem 2rem 6rem;
+    position: relative;
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    margin-bottom: 4rem;
+    overflow: hidden;
+}
+
+.hero-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: pulse 8s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 0.8; }
+}
+
+h1 {
+    text-align: center;
+    font-size: 5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    max-width: 800px;
+    animation: titleReveal 1.2s ease-out;
+}
+
+.gradient-text {
+    background: linear-gradient(
+        45deg,
+        #fff 0%,
+        #f0f0f0 30%,
+        #fff 50%,
+        #f0f0f0 70%,
+        #fff 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 8s linear infinite;
+    padding: 0 1rem;
+    display: block;
+}
+
+@keyframes shine {
+    to {
+        background-position: 200% center;
+    }
+}
+
+@keyframes titleReveal {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive improvements */
+@media (max-width: 1200px) {
+    .container {
+        padding: 0 1.5rem;
+    }
+
+    h1 {
+        font-size: 4.5rem;
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-header {
+        min-height: 40vh;
+        padding: 8rem 1rem 4rem;
+    }
+
+    h1 {
+        font-size: 3.5rem;
+    }
+
+    .form-group {
+        padding: 1.8rem;
+        margin-bottom: 2.5rem;
+    }
+
+    input:not([type="radio"]), textarea {
+        padding: 1.1rem;
+        font-size: 1rem;
+    }
+
+    label {
+        font-size: 1.1rem;
+    }
+
+    .radio-group {
+        flex-direction: row !important;
+        gap: 1rem;
+    }
+
+    .radio-option {
+        width: 100px;
+        padding: 0.7rem 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-header {
+        padding: 7rem 1rem 3rem;
+    }
+
+    h1 {
+        font-size: 2.8rem;
+    }
+
+    .form-group {
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .radio-group {
+        gap: 0.8rem;
+    }
+
+    .radio-option {
+        padding: 0.7rem 1.5rem;
+        min-width: 80px;
+    }
+
+    .submit-btn {
+        padding: 1.2rem;
+        font-size: 1.1rem;
+    }
+
+    .main-header {
+        padding: 0.8rem 0;
+    }
+
+    .header-container {
+        padding: 1rem 1.5rem;
+    }
+
+    .logo {
+        font-size: 1.5rem;
+    }
+}
+
+/* Add smooth scroll behavior */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Improve form group animations */
+.form-group {
+    animation: slideUp 0.6s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+@keyframes slideUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Update experience sections */
+.experience-section {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 24px;
+    padding: 2rem;
+    margin-top: 1rem;
+}
+
+/* Update the experience textareas */
+#twitter-exp-details, #web3-exp-details {
+    margin-top: 2rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 16px;
+    padding: 2rem;
+}
+
+textarea {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    min-height: 150px;
+}
+
+@media (max-width: 768px) {
+    .header-container {
+        padding: 1.2rem 1.5rem;
+    }
+    
+    .logo {
+        font-size: 1.5rem;
+    }
+    
+    .radio-group {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+
+    .hero-header {
+        padding: 10rem 1.5rem 4rem;
+    }
+
+    .radio-group {
+        gap: 1rem;
+    }
+
+    .radio-option {
+        padding: 0.7rem 1.5rem;
+    }
+}
+
+/* Add subtle glow effect */
+.hero-header::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+        circle at 50% 50%,
+        rgba(255, 255, 255, 0.1),
+        transparent 70%
+    );
+    pointer-events: none;
+}
+
+/* Remove the old gradient-bg::before animation */
+.gradient-bg::before {
+    animation: rotate 35s linear infinite;
+}
+
+/* Add styles for phone input group */
+.phone-input-group {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.8rem;
+}
+
+.phone-input-group select {
+    flex: 0 0 auto;
+    width: auto;
+    padding: 1.3rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    color: #fff;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: 2.5rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.7rem center;
+    background-size: 1rem;
+}
+
+.phone-input-group input {
+    flex: 1;
+    margin-top: 0;
+}
+
+.phone-input-group select:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.07);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Style for required field indicator */
+label[for="instagram"]::after {
+    content: '*';
+    color: rgba(255, 255, 255, 0.9);
+    margin-left: 0.2rem;
+}
+
+/* Optional field style */
+label[for="twitter"],
+label[for="linkedin"] {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .phone-input-group select {
+        padding: 1.1rem;
+        padding-right: 2.2rem;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .phone-input-group {
+        gap: 0.8rem;
+    }
+    
+    .phone-input-group select {
+        padding: 1rem;
+        padding-right: 2rem;
+    }
+}
+
+/* Add these styles to your existing styles.css */
+.application-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.application-card h3 {
+    margin: 0 0 10px 0;
+    color: #1a73e8;
+}
+
+.application-card p {
+    margin: 5px 0;
+    color: #333;
+}
+  

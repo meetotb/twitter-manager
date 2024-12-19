@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Submitted | Twitter Manager Hiring</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .success-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .checkmark-circle {
+            width: 150px;
+            height: 150px;
+            position: relative;
+            margin: 2rem auto;
+        }
+
+        .checkmark {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            stroke-width: 2;
+            stroke-miterlimit: 10;
+            stroke: #fff;
+            fill: none;
+            animation: stroke 1.5s cubic-bezier(0.65, 0, 0.45, 1) forwards 0.5s;
+        }
+
+        .checkmark-circle .circle {
+            stroke-dasharray: 480;
+            stroke-dashoffset: 480;
+            stroke-width: 2;
+            stroke-miterlimit: 10;
+            stroke: rgba(255, 255, 255, 0.5);
+            fill: none;
+            animation: stroke 1.5s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+        }
+
+        @keyframes stroke {
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        .success-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 2rem 0 1rem;
+            background: linear-gradient(to right, #fff, #888);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out forwards 2s;
+        }
+
+        .success-message {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 600px;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out forwards 2.3s;
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out forwards 2.6s;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Confetti styles */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #fff;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="gradient-bg"></div>
+    
+    <div class="success-container">
+        <div class="checkmark-circle">
+            <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                <circle class="circle" cx="26" cy="26" r="25" fill="none"/>
+                <path class="check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+            </svg>
+        </div>
+        <h1 class="success-title">Application Submitted!</h1>
+        <p class="success-message">
+            Thank you for applying to join our Twitter Management Team. We've received your application and will review it shortly. We'll get back to you soon!
+        </p>
+        <a href="index.html" class="back-btn">Back to Home</a>
+    </div>
+
+    <script>
+        // Confetti animation
+        function createConfetti() {
+            const colors = ['#ffffff', '#f0f0f0', '#e0e0e0', '#ffffff80'];
+            const confettiCount = 150;
+            const container = document.querySelector('.success-container');
+
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                
+                // Random confetti properties
+                const size = Math.random() * 10 + 5;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const angle = Math.random() * 360;
+                const spread = Math.random() * container.offsetWidth;
+                const delay = Math.random() * 1.5;
+
+                confetti.style.width = `${size}px`;
+                confetti.style.height = `${size}px`;
+                confetti.style.backgroundColor = color;
+                confetti.style.left = `${spread}px`;
+                confetti.style.top = '-10px';
+                confetti.style.transform = `rotate(${angle}deg)`;
+                confetti.style.opacity = '0';
+
+                // Animation
+                confetti.style.animation = `
+                    confettiFall ${Math.random() * 2 + 3}s linear forwards ${delay}s,
+                    confettiRotate ${Math.random() * 2 + 2}s linear infinite
+                `;
+
+                container.appendChild(confetti);
+
+                // Remove confetti after animation
+                setTimeout(() => confetti.remove(), 5000);
+            }
+        }
+
+        // Add confetti animation keyframes
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes confettiFall {
+                0% {
+                    opacity: 1;
+                    transform: translateY(0) rotate(0);
+                }
+                100% {
+                    opacity: 0;
+                    transform: translateY(100vh) rotate(360deg);
+                }
+            }
+            @keyframes confettiRotate {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Start confetti after checkmark animation
+        setTimeout(createConfetti, 1500);
+    </script>
+</body>
+</html> 
