@@ -3,6 +3,8 @@ name: Deploy to VPS
 on:
   push:
     branches: [ production ]
+  # Add manual trigger
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -24,7 +26,27 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
+            echo "Starting deployment..."
+            
+            # Create and setup directory if it doesn't exist
+            mkdir -p /var/www/twitter-manager
             cd /var/www/twitter-manager
-            git pull origin production
+            
+            # Initialize git if needed
+            if [ ! -d .git ]; then
+              git init
+              git remote add origin https://github.com/meetotb/twitter-manager.git
+            fi
+            
+            # Fetch and reset to match remote
+            git fetch origin production
+            git checkout production || git checkout -b production
+            git reset --hard origin/production
+            
+            # Install dependencies
             npm install --production
+            
+            # Start/restart PM2
             pm2 restart ecosystem.config.js || pm2 start ecosystem.config.js
+            
+            echo "Deployment completed!"
