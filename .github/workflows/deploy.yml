@@ -26,13 +26,23 @@ jobs:
           script: |
             echo "Starting deployment..."
             
+            # Create directory if it doesn't exist
+            mkdir -p /var/www/twitter-manager
+            
             # Navigate to project directory
             cd /var/www/twitter-manager
             
+            # Initialize git if needed
+            if [ ! -d .git ]; then
+              git init
+              git remote add origin https://github.com/meetotb/twitter-manager.git
+            fi
+            
             # Pull latest changes
             echo "Pulling latest changes..."
-            git checkout production
-            git pull origin production
+            git fetch --all
+            git checkout production || git checkout -b production
+            git reset --hard origin/production
             
             # Install dependencies
             echo "Installing dependencies..."
@@ -41,7 +51,14 @@ jobs:
             # Copy environment file if it doesn't exist
             if [ ! -f .env ]; then
               echo "Creating .env file..."
-              cp .env.example .env
+              echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" > .env
+              echo "PORT=3000" >> .env
+              echo "ADMIN_PASSWORD=${{ secrets.ADMIN_PASSWORD }}" >> .env
+            fi
+            
+            # Install PM2 if needed
+            if ! command -v pm2 &> /dev/null; then
+              npm install -g pm2
             fi
             
             # Restart PM2
