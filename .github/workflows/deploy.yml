@@ -16,25 +16,15 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Install SSH key
-        uses: shimataro/ssh-key-action@v2
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v1.0.0
         with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
-
-      - name: Add known hosts
-        run: |
-          ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
-
-      - name: Deploy with SSH
-        env:
-          SSH_USER: ${{ secrets.USERNAME }}
-          SSH_HOST: ${{ secrets.HOST }}
-        run: |
-          ssh $SSH_USER@$SSH_HOST '
-            cd /var/www/twitter-manager &&
-            git fetch origin production &&
-            git reset --hard origin/production &&
-            npm install --production &&
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd /var/www/twitter-manager
+            git pull origin production
+            npm install --production
             pm2 restart ecosystem.config.js || pm2 start ecosystem.config.js
-          '
